@@ -7,7 +7,6 @@
     <style>
         :root {
             --primary: #4f46e5;
-            --primary-hover: #4338ca;
             --bg-gradient: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 50%, #fef3c7 100%);
             --text-main: #1e293b;
             --text-muted: #64748b;
@@ -30,33 +29,34 @@
             background: var(--bg-gradient);
             min-height: 100vh;
             color: var(--text-main);
-            padding: 20px 10px;
+            padding: 15px 10px;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 950px;
             margin: 0 auto;
         }
 
         header {
             text-align: center;
-            margin-bottom: 25px;
-            background: rgba(255, 255, 255, 0.85);
-            padding: 20px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
             border-radius: 20px;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
-            backdrop-filter: blur(10px);
         }
 
-        h1 {
-            color: var(--primary);
-            font-size: 2rem;
-            margin-bottom: 8px;
-        }
-
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 0.95rem;
+        h1 { color: var(--primary); font-size: 1.8rem; }
+        
+        .global-clock {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1e293b;
+            margin-top: 5px;
+            background: #e0e7ff;
+            display: inline-block;
+            padding: 4px 15px;
+            border-radius: 12px;
         }
 
         .grid {
@@ -66,29 +66,19 @@
         }
 
         @media (min-width: 768px) {
-            .grid {
-                grid-template-columns: 1fr 1fr;
-            }
+            .grid { grid-template-columns: 1fr 1fr; }
         }
 
         .card {
             background: white;
             border-radius: 24px;
-            padding: 20px;
+            padding: 18px;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
             border: 3px solid transparent;
-            transition: all 0.3s ease;
         }
 
-        .card.ala {
-            border-color: var(--ala-border);
-            background: linear-gradient(to bottom, #ffffff, var(--ala-bg));
-        }
-
-        .card.ola {
-            border-color: var(--ola-border);
-            background: linear-gradient(to bottom, #ffffff, var(--ola-bg));
-        }
+        .card.ala { border-color: var(--ala-border); background: linear-gradient(to bottom, #ffffff, var(--ala-bg)); }
+        .card.ola { border-color: var(--ola-border); background: linear-gradient(to bottom, #ffffff, var(--ola-bg)); }
 
         .child-header {
             display: flex;
@@ -96,62 +86,74 @@
             align-items: center;
             margin-bottom: 15px;
             padding-bottom: 10px;
-            border-bottom: 2px dashed #e2e8f0;
+            border-bottom: 2px dashed #cbd5e1;
         }
 
-        .child-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-
+        .child-name { font-size: 1.5rem; font-weight: 700; }
         .card.ala .child-name { color: var(--ala-color); }
         .card.ola .child-name { color: var(--ola-color); }
 
-        .score-badge {
-            background: #fef3c7;
-            color: #d97706;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.9rem;
+        .time-setting {
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 8px 12px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
-            gap: 5px;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .time-setting input {
+            padding: 4px 8px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            font-weight: bold;
         }
 
         .task-list {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .task-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px;
             background: white;
+            padding: 12px;
             border-radius: 16px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
-            cursor: pointer;
-            user-select: none;
-            transition: transform 0.1s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+            border: 2px solid #f1f5f9;
         }
 
-        .task-item:active {
-            transform: scale(0.98);
+        .task-item.active {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .task-item.completed {
+            background: #f0fdf4;
+            border-color: #86efac;
+        }
+
+        .task-main {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
         }
 
         .task-checkbox {
-            width: 24px;
-            height: 24px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
             border: 2px solid #cbd5e1;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s ease;
+            font-weight: bold;
+            color: transparent;
         }
 
         .task-item.completed .task-checkbox {
@@ -160,65 +162,57 @@
             color: white;
         }
 
-        .task-text {
-            font-size: 1rem;
-            font-weight: 500;
-            flex: 1;
+        .task-text { font-size: 1rem; font-weight: 600; flex: 1; }
+        .task-item.completed .task-text { text-decoration: line-through; color: #94a3b8; }
+
+        .task-timer-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.82rem;
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px solid #f1f5f9;
+            color: var(--text-muted);
         }
 
-        .task-item.completed .task-text {
-            text-decoration: line-through;
-            color: #94a3b8;
+        .countdown {
+            font-weight: bold;
+            color: #d97706;
+        }
+
+        .countdown.urgent {
+            color: #dc2626;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
         }
 
         .sticker-board {
             margin-top: 15px;
-            padding-top: 15px;
-            border-top: 2px dashed #e2e8f0;
+            padding-top: 12px;
+            border-top: 2px dashed #cbd5e1;
         }
 
-        .sticker-title {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
-
-        .stickers-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            min-height: 40px;
-        }
-
-        .sticker {
-            font-size: 1.5rem;
-            animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        @keyframes pop {
-            0% { transform: scale(0); }
-            100% { transform: scale(1); }
-        }
+        .sticker-title { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
+        .stickers-container { display: flex; flex-wrap: wrap; gap: 6px; min-height: 35px; }
+        .sticker { font-size: 1.4rem; }
 
         .reset-btn {
             display: block;
             width: 100%;
-            max-width: 200px;
-            margin: 25px auto 0;
-            padding: 12px;
+            max-width: 220px;
+            margin: 20px auto 0;
+            padding: 10px;
             background: #ef4444;
             color: white;
             border: none;
             border-radius: 12px;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.2);
-        }
-
-        .reset-btn:hover {
-            background: #dc2626;
         }
     </style>
 </head>
@@ -227,122 +221,105 @@
     <div class="container">
         <header>
             <h1>☀️ Poranny Plan Dnia</h1>
-            <p class="subtitle">Zbierajcie naklejki za wykonane zadania!</p>
+            <div class="global-clock" id="clock">00:00:00</div>
         </header>
 
         <div class="grid">
-            <!-- KARTA ALI -->
+            <!-- ALA -->
             <div class="card ala">
                 <div class="child-header">
                     <span class="child-name">Ala</span>
-                    <div class="score-badge">⭐ <span id="ala-score">0</span> pkt</div>
+                    <div style="font-weight: bold; color: #d97706;">⭐ <span id="ala-score">0</span> pkt</div>
                 </div>
-                <ul class="task-list" id="ala-tasks">
-                    <li class="task-item" onclick="toggleTask('ala', 0)">
-                        <div class="task-checkbox">✓</div>
-                        <span class="task-text">🛏️ Ścielenie łóżka</span>
-                    </li>
-                    <li class="task-item" onclick="toggleTask('ala', 1)">
-                        <div class="task-checkbox">✓</div>
-                        <span class="task-text">🪥 Mycie zębów</span>
-                    </li>
-                    <li class="task-item" onclick="toggleTask('ala', 2)">
-                        <div class="task-checkbox">✓</div>
-                        <span class="task-text">👕 Ubranie się</span>
-                    </li>
-                    <li class="task-item" onclick="toggleTask('ala', 3)">
-                        <div class="task-checkbox">✓</div>
-                        <span class="task-text">🥣 Zjedzenie śniadania</span>
-                    </li>
-                    <li class="task-item" onclick="toggleTask('ala', 4)">
-                        <div class="task-checkbox">✓</div>
-                        <span class="task-text">🎒 Spakowanie plecaka</span>
-                    </li>
-                </ul>
+
+                <div class="time-setting">
+                    <span>⏰ Wyjazd z domu:</span>
+                    <input type="time" id="ala-target-time" value="07:30" onchange="updateTimes()">
+                </div>
+
+                <div class="task-list" id="ala-tasks"></div>
+
                 <div class="sticker-board">
-                    <div class="sticker-title">Kolekcja naklejek Ali:</div>
+                    <div class="sticker-title">Naklejki Ali:</div>
                     <div class="stickers-container" id="ala-stickers"></div>
                 </div>
             </div>
 
-            <!-- KARTA OLI -->
+            <!-- OLA -->
             <div class="card ola">
                 <div class="child-header">
                     <span class="child-name">Ola</span>
-                    <div class="score-badge">⭐ <span id="ola-score">0</span> pkt</div>
+                    <div style="font-weight: bold; color: #d97706;">⭐ <span id="ola-score">0</span> pkt</div>
                 </div>
-                <ul class="task-list" id="ola-tasks">
-                    <li class="task-item" onclick="toggleTask('ola', 0)">
-                        <div class="task-checkbox">✓</div>
-                        <span class="task-text">🛏️ Ścielenie łóżka</span>
-                    </li>
-                    <li class="task-item" onclick="toggleTask('ola', 1)">
-                        <div class="task-checkbox">✓</div>
-                        <span class="task-text">🪥 Mycie zębów</span>
-                    </li>
-                    <li class="task-item" onclick="toggleTask('ola', 2)">
-                        <div class="task-checkbox">✓</div>
-                        <span class="task-text">👕 Ubranie się</span>
-                    </li>
-                    <li class="task-item" onclick="toggleTask('ola', 3)">
-                        <div class="task-checkbox">✓</div>
-                        <span class="task-text">🥣 Zjedzenie śniadania</span>
-                    </li>
-                    <li class="task-item" onclick="toggleTask('ola', 4)">
-                        <div class="task-checkbox">✓</div>
-                        <span class="task-text">🎒 Spakowanie plecaka</span>
-                    </li>
-                </ul>
+
+                <div class="time-setting">
+                    <span>⏰ Wyjazd z domu:</span>
+                    <input type="time" id="ola-target-time" value="07:30" onchange="updateTimes()">
+                </div>
+
+                <div class="task-list" id="ola-tasks"></div>
+
                 <div class="sticker-board">
-                    <div class="sticker-title">Kolekcja naklejek Oli:</div>
+                    <div class="sticker-title">Naklejki Oli:</div>
                     <div class="stickers-container" id="ola-stickers"></div>
                 </div>
             </div>
         </div>
 
-        <button class="reset-btn" onclick="resetDay()">🔄 Rozpocznij nowy dzień</button>
+        <button class="reset-btn" onclick="resetDay()">🔄 Nowy dzień</button>
     </div>
 
     <script>
+        const TASK_DEFINITIONS = [
+            { name: "🛏️ Ścielenie łóżka", duration: 5 },
+            { name: "🦷 Mycie zębów", duration: 5 },
+            { name: "👕 Ubranie się", duration: 10 },
+            { name: "🥣 Zjedzenie śniadania", duration: 20 },
+            { name: "👟 Załóż buty i kurtkę", duration: 5 }
+        ];
+
         const STICKERS = ['🦄', '🌸', '🐱', '🌈', '🍦', '🎨', '👑', '🦋', '⭐', '🎈'];
 
         let state = {
-            ala: { tasks: [false, false, false, false, false], score: 0, stickers: [] },
-            ola: { tasks: [false, false, false, false, false], score: 0, stickers: [] }
+            ala: { targetTime: "07:30", tasks: [false, false, false, false, false], score: 0, stickers: [] },
+            ola: { targetTime: "07:30", tasks: [false, false, false, false, false], score: 0, stickers: [] }
         };
 
         function loadData() {
-            const saved = localStorage.getItem('poranek_data');
+            const saved = localStorage.getItem('poranek_full_data');
             if (saved) {
                 state = JSON.parse(saved);
+                document.getElementById('ala-target-time').value = state.ala.targetTime || "07:30";
+                document.getElementById('ola-target-time').value = state.ola.targetTime || "07:30";
             }
-            render();
         }
 
         function saveData() {
-            localStorage.setItem('poranek_data', JSON.stringify(state));
+            state.ala.targetTime = document.getElementById('ala-target-time').value;
+            state.ola.targetTime = document.getElementById('ola-target-time').value;
+            localStorage.setItem('poranek_full_data', JSON.stringify(state));
+        }
+
+        function updateTimes() {
+            saveData();
+            render();
         }
 
         function toggleTask(child, index) {
             state[child].tasks[index] = !state[child].tasks[index];
-            
             if (state[child].tasks[index]) {
                 state[child].score += 10;
-                const randomSticker = STICKERS[Math.floor(Math.random() * STICKERS.length)];
-                state[child].stickers.push(randomSticker);
+                state[child].stickers.push(STICKERS[Math.floor(Math.random() * STICKERS.length)]);
             } else {
                 state[child].score = Math.max(0, state[child].score - 10);
-                if (state[child].stickers.length > 0) {
-                    state[child].stickers.pop();
-                }
+                if (state[child].stickers.length > 0) state[child].stickers.pop();
             }
-
             saveData();
             render();
         }
 
         function resetDay() {
-            if (confirm("Czy na pewno chcesz odznaczyć zadania na nowy dzień? (Zdobyte naklejki pozostaną!)")) {
+            if (confirm("Rozpocząć nowy dzień? Zadania zostaną odznaczone, naklejki zostają!")) {
                 state.ala.tasks = [false, false, false, false, false];
                 state.ola.tasks = [false, false, false, false, false];
                 saveData();
@@ -350,35 +327,112 @@
             }
         }
 
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleTimeString();
+            renderTimers();
+        }
+
+        function getTaskSchedule(targetTimeStr) {
+            const [hours, minutes] = targetTimeStr.split(':').map(Number);
+            let target = new Date();
+            target.setHours(hours, minutes, 0, 0);
+
+            const totalDuration = TASK_DEFINITIONS.reduce((acc, t) => acc + t.duration, 0);
+            let currentTime = new Date(target.getTime() - totalDuration * 60000);
+
+            return TASK_DEFINITIONS.map(task => {
+                const start = new Date(currentTime);
+                const end = new Date(start.getTime() + task.duration * 60000);
+                currentTime = end;
+                return { name: task.name, start, end };
+            });
+        }
+
         function render() {
             ['ala', 'ola'].forEach(child => {
-                // Punkty
                 document.getElementById(`${child}-score`).innerText = state[child].score;
+                const schedule = getTaskSchedule(document.getElementById(`${child}-target-time`).value);
+                const container = document.getElementById(`${child}-tasks`);
+                container.innerHTML = '';
 
-                // Zadania
-                const taskElements = document.getElementById(`${child}-tasks`).children;
-                state[child].tasks.forEach((isDone, index) => {
-                    if (isDone) {
-                        taskElements[index].classList.add('completed');
-                    } else {
-                        taskElements[index].classList.remove('completed');
-                    }
+                schedule.forEach((item, index) => {
+                    const isDone = state[child].tasks[index];
+                    const startStr = item.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    const endStr = item.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                    const li = document.createElement('li');
+                    li.className = `task-item ${isDone ? 'completed' : ''}`;
+                    li.id = `${child}-task-${index}`;
+
+                    li.innerHTML = `
+                        <div class="task-main" onclick="toggleTask('${child}', ${index})">
+                            <div class="task-checkbox">${isDone ? '✓' : ''}</div>
+                            <span class="task-text">${item.name}</span>
+                        </div>
+                        <div class="task-timer-info">
+                            <span>⏰ ${startStr} - ${endStr}</span>
+                            <span class="countdown" id="${child}-timer-${index}">--:--</span>
+                        </div>
+                    `;
+                    container.appendChild(li);
                 });
 
-                // Naklejki
                 const stickerContainer = document.getElementById(`${child}-stickers`);
                 stickerContainer.innerHTML = '';
-                state[child].stickers.forEach(sticker => {
+                state[child].stickers.forEach(s => {
                     const span = document.createElement('span');
                     span.className = 'sticker';
-                    span.innerText = sticker;
+                    span.innerText = s;
                     stickerContainer.appendChild(span);
+                });
+            });
+
+            renderTimers();
+        }
+
+        function renderTimers() {
+            const now = new Date();
+
+            ['ala', 'ola'].forEach(child => {
+                const schedule = getTaskSchedule(document.getElementById(`${child}-target-time`).value);
+
+                schedule.forEach((item, index) => {
+                    const timerEl = document.getElementById(`${child}-timer-${index}`);
+                    const taskEl = document.getElementById(`${child}-task-${index}`);
+                    if (!timerEl) return;
+
+                    const isDone = state[child].tasks[index];
+
+                    if (isDone) {
+                        timerEl.innerText = "Wykonane! 🎉";
+                        timerEl.className = "countdown";
+                        if (taskEl) taskEl.classList.remove('active');
+                    } else if (now > item.end) {
+                        timerEl.innerText = "Czas minął!";
+                        timerEl.className = "countdown urgent";
+                        if (taskEl) taskEl.classList.remove('active');
+                    } else if (now >= item.start && now <= item.end) {
+                        const diffMs = item.end - now;
+                        const mins = Math.floor(diffMs / 60000);
+                        const secs = Math.floor((diffMs % 60000) / 1000);
+                        timerEl.innerText = `Zostało: ${mins}m ${secs}s`;
+                        timerEl.className = "countdown urgent";
+                        if (taskEl) taskEl.classList.add('active');
+                    } else {
+                        const diffMs = item.start - now;
+                        const mins = Math.floor(diffMs / 60000);
+                        timerEl.innerText = `Za ${mins} min`;
+                        timerEl.className = "countdown";
+                        if (taskEl) taskEl.classList.remove('active');
+                    }
                 });
             });
         }
 
-        // Uruchomienie przy starcie
         loadData();
+        setInterval(updateClock, 1000);
+        updateClock();
     </script>
 </body>
 </html>
