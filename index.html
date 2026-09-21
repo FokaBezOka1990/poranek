@@ -3,19 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Poranny Plan Dnia - Ala i Ola</title>
+    <title>Poranne przygotowanie do szkoły i przedszkola</title>
     <style>
         :root {
-            --primary: #4f46e5;
-            --bg-gradient: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 50%, #fef3c7 100%);
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --ala-color: #ec4899;
-            --ala-bg: #fdf2f8;
-            --ala-border: #f472b6;
-            --ola-color: #8b5cf6;
-            --ola-bg: #f5f3ff;
-            --ola-border: #a78bfa;
+            --bg-color: #f0f7ff;
+            --ala-color: #ff4081;
+            --ala-bg: #fff0f5;
+            --ola-color: #7c4dff;
+            --ola-bg: #f3e8ff;
+            --text-dark: #1e293b;
         }
 
         * {
@@ -27,518 +23,434 @@
         }
 
         body {
-            background: var(--bg-gradient);
-            min-height: 100vh;
-            color: var(--text-main);
-            padding: 15px 10px;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            padding: 20px 10px;
+            display: flex;
+            justify-content: center;
         }
 
-        .container {
-            max-width: 950px;
-            margin: 0 auto;
+        .main-wrapper {
+            width: 100%;
+            max-width: 900px;
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
 
-        header {
+        h1 {
             text-align: center;
-            margin-bottom: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 15px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: #0f172a;
         }
 
-        h1 { color: var(--primary); font-size: 1.8rem; margin-bottom: 5px; }
+        /* TOP BAR */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
 
-        .global-clock {
-            font-size: 1.6rem;
-            font-weight: bold;
-            color: #1e293b;
-            background: #e0e7ff;
-            display: inline-block;
-            padding: 4px 18px;
+        .time-inputs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .time-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
             border-radius: 12px;
+            padding: 6px 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
         }
 
-        .legend {
-            margin-top: 8px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            font-weight: 600;
+        .time-box label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
-        .grid {
+        .time-box input {
+            border: none;
+            background: transparent;
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: #1e293b;
+            outline: none;
+            width: 60px;
+        }
+
+        .total-time-badge {
+            background: #e0f2fe;
+            color: #0284c7;
+            font-weight: 700;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .btn-start {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+            transition: transform 0.1s;
+        }
+
+        .btn-start:active { transform: scale(0.97); }
+
+        /* MOUSE INFO BADGES */
+        .controls-info {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .info-badge {
+            flex: 1;
+            text-align: center;
+            padding: 8px;
+            border-radius: 16px;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        .info-badge.ala {
+            background: #fce7f3;
+            color: #be185d;
+        }
+
+        .info-badge.ola {
+            background: #f3e8ff;
+            color: #6b21a8;
+        }
+
+        /* COLUMNS GRID */
+        .columns-grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: 20px;
         }
 
-        @media (min-width: 768px) {
-            .grid { grid-template-columns: 1fr 1fr; }
+        @media (min-width: 650px) {
+            .columns-grid { grid-template-columns: 1fr 1fr; }
         }
 
-        .card {
-            background: white;
-            border-radius: 24px;
-            padding: 18px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
-            border: 3px solid transparent;
+        .child-card {
+            border-radius: 20px;
+            padding: 15px;
+            border: 2px solid transparent;
         }
 
-        .card.ala { border-color: var(--ala-border); background: linear-gradient(to bottom, #ffffff, var(--ala-bg)); }
-        .card.ola { border-color: var(--ola-border); background: linear-gradient(to bottom, #ffffff, var(--ola-bg)); }
-
-        .child-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 2px dashed #cbd5e1;
+        .child-card.ala {
+            border-color: #fbcfe8;
+            background: #fff5f8;
         }
 
-        .child-name { font-size: 1.5rem; font-weight: 700; }
-        .card.ala .child-name { color: var(--ala-color); }
-        .card.ola .child-name { color: var(--ola-color); }
+        .child-card.ola {
+            border-color: #e9d5ff;
+            background: #faf5ff;
+        }
 
-        .time-panel {
-            background: rgba(255, 255, 255, 0.85);
-            padding: 10px 12px;
-            border-radius: 14px;
+        .child-title {
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 800;
             margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            font-size: 0.88rem;
-            font-weight: 600;
-        }
-
-        .time-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .time-row input {
-            padding: 3px 8px;
-            border-radius: 8px;
-            border: 1px solid #cbd5e1;
-            font-weight: bold;
-        }
-
-        .task-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .task-item {
-            background: white;
-            padding: 10px 12px;
-            border-radius: 14px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
-            border: 2px solid #f1f5f9;
-            cursor: pointer;
-        }
-
-        .task-item.active {
-            border-color: #3b82f6;
-            background: #eff6ff;
-        }
-
-        .task-item.completed {
-            background: #f0fdf4;
-            border-color: #86efac;
-        }
-
-        .task-main {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .task-checkbox {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            border: 2px solid #cbd5e1;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            color: transparent;
+            gap: 8px;
         }
 
-        .task-item.completed .task-checkbox {
-            background: #22c55e;
-            border-color: #22c55e;
-            color: white;
+        .child-card.ala .child-title { color: var(--ala-color); }
+        .child-card.ola .child-title { color: var(--ola-color); }
+
+        /* TASKS */
+        .tasks-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
-        .task-text { font-size: 0.95rem; font-weight: 600; flex: 1; }
-        .task-item.completed .task-text { text-decoration: line-through; color: #94a3b8; }
+        .task-row {
+            background: white;
+            border-radius: 14px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            cursor: pointer;
+        }
 
-        .task-timer-info {
+        .task-icon {
+            font-size: 1.6rem;
+            width: 32px;
+            text-align: center;
+        }
+
+        .task-details {
+            flex: 1;
+        }
+
+        .task-top {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .task-time-val {
+            color: #64748b;
+            font-size: 0.75rem;
+        }
+
+        .progress-bar-bg {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .child-card.ala .progress-bar-fill { background: var(--ala-color); }
+        .child-card.ola .progress-bar-fill { background: var(--ola-color); }
+
+        .task-row.completed .progress-bar-fill {
+            width: 100% !important;
+        }
+
+        /* STICKER ALBUM */
+        .album-header {
             display: flex;
             justify-content: space-between;
             font-size: 0.8rem;
-            margin-top: 5px;
-            padding-top: 5px;
-            border-top: 1px dashed #e2e8f0;
-            color: var(--text-muted);
-        }
-
-        .countdown { font-weight: bold; color: #d97706; }
-        .countdown.urgent { color: #dc2626; animation: pulse 1s infinite; }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.4; }
-            100% { opacity: 1; }
-        }
-
-        .sticker-album {
-            margin-top: 15px;
-            padding-top: 12px;
-            border-top: 2px dashed #cbd5e1;
-        }
-
-        .sticker-title {
-            font-size: 0.85rem;
             font-weight: 700;
-            color: var(--text-muted);
+            color: #64748b;
             margin-bottom: 8px;
-            text-transform: uppercase;
-            display: flex;
-            justify-content: space-between;
         }
 
         .sticker-grid {
             display: grid;
-            grid-template-columns: repeat(7, 1fr);
+            grid-template-columns: repeat(6, 1fr);
             gap: 6px;
         }
 
         .sticker-slot {
             aspect-ratio: 1;
-            background: #f1f5f9;
-            border: 2px dashed #cbd5e1;
-            border-radius: 12px;
+            background: #ffffff;
+            border: 1px dashed #cbd5e1;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
-            cursor: pointer;
-            transition: transform 0.1s;
-        }
-
-        .sticker-slot:active {
-            transform: scale(0.95);
+            font-size: 1.1rem;
+            color: #94a3b8;
+            font-weight: bold;
         }
 
         .sticker-slot.filled {
-            background: #fef3c7;
-            border: 2px solid #f59e0b;
-        }
-
-        .reset-btn {
-            display: block;
-            width: 100%;
-            max-width: 250px;
-            margin: 20px auto 0;
-            padding: 10px;
-            background: #ef4444;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
+            border: 1px solid #fde047;
+            background: #fefce8;
+            box-shadow: 0 0 5px rgba(253, 224, 71, 0.5);
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>☀️ Poranny Plan Dnia</h1>
-            <div class="global-clock" id="clock">00:00:00</div>
-            <div class="legend">🖱️ LPM = Wykonanie zadania / Dodanie naklejki | 🖱️ PPM = Usunięcie naklejki</div>
-        </header>
+    <div class="main-wrapper">
+        <h1>Poranne przygotowanie do szkoły i przedszkola</h1>
 
-        <div class="grid">
+        <!-- TOP BAR -->
+        <div class="top-bar">
+            <div class="time-inputs">
+                <div class="time-box">
+                    <label>⏰ POBUDKA</label>
+                    <input type="time" id="wake-time" value="06:30" onchange="calculateTotalTime()">
+                </div>
+                <div class="time-box">
+                    <label>🏫 WYJŚCIE</label>
+                    <input type="time" id="exit-time" value="07:20" onchange="calculateTotalTime()">
+                </div>
+            </div>
+
+            <div class="total-time-badge" id="total-time-display">
+                Czas ogółem: 50 min
+            </div>
+
+            <button class="btn-start" onclick="toggleTimer()">▶ Start Odliczania</button>
+        </div>
+
+        <!-- MOUSE INSTRUCTIONS -->
+        <div class="controls-info">
+            <div class="info-badge ala">🌸 Ala: Kliknięcie LPM (Lewy Przycisk Myszy)</div>
+            <div class="info-badge ola">👑 Ola: Kliknięcie PPM (Prawy Przycisk Myszy)</div>
+        </div>
+
+        <!-- COLUMNS -->
+        <div class="columns-grid">
+            
             <!-- ALA -->
-            <div class="card ala">
-                <div class="child-header">
-                    <span class="child-name">Ala</span>
-                    <div style="font-weight: bold; color: #d97706;" id="ala-status">Postęp: 0/5</div>
-                </div>
+            <div class="child-card ala" id="card-ala">
+                <div class="child-title">🌸 ALA</div>
+                
+                <div class="tasks-wrapper" id="tasks-ala"></div>
 
-                <div class="time-panel">
-                    <div class="time-row">
-                        <span>⏰ Pobudka:</span>
-                        <input type="time" id="ala-wake-time" value="06:45" onchange="updateTimes()">
-                    </div>
-                    <div class="time-row">
-                        <span>🚗 Wyjazd z domu:</span>
-                        <input type="time" id="ala-target-time" value="07:30" onchange="updateTimes()">
-                    </div>
+                <div class="album-header">
+                    <span>🎨 Album naklejek Ali</span>
+                    <span id="count-ala">0/20</span>
                 </div>
-
-                <div class="task-list" id="ala-tasks"></div>
-
-                <div class="sticker-album">
-                    <div class="sticker-title">
-                        <span>Kolekcja Naklejek (1 Dzień = 1 Naklejka)</span>
-                        <span id="ala-sticker-count">0/7</span>
-                    </div>
-                    <div class="sticker-grid" id="ala-stickers"></div>
-                </div>
+                <div class="sticker-grid" id="stickers-ala"></div>
             </div>
 
             <!-- OLA -->
-            <div class="card ola">
-                <div class="child-header">
-                    <span class="child-name">Ola</span>
-                    <div style="font-weight: bold; color: #d97706;" id="ola-status">Postęp: 0/5</div>
-                </div>
+            <div class="child-card ola" id="card-ola">
+                <div class="child-title">👑 OLA</div>
 
-                <div class="time-panel">
-                    <div class="time-row">
-                        <span>⏰ Pobudka:</span>
-                        <input type="time" id="ola-wake-time" value="06:45" onchange="updateTimes()">
-                    </div>
-                    <div class="time-row">
-                        <span>🚗 Wyjazd z domu:</span>
-                        <input type="time" id="ola-target-time" value="07:30" onchange="updateTimes()">
-                    </div>
-                </div>
+                <div class="tasks-wrapper" id="tasks-ola"></div>
 
-                <div class="task-list" id="ola-tasks"></div>
-
-                <div class="sticker-album">
-                    <div class="sticker-title">
-                        <span>Kolekcja Naklejek (1 Dzień = 1 Naklejka)</span>
-                        <span id="ola-sticker-count">0/7</span>
-                    </div>
-                    <div class="sticker-grid" id="ola-stickers"></div>
+                <div class="album-header">
+                    <span>🎨 Album naklejek Oli</span>
+                    <span id="count-ola">0/20</span>
                 </div>
+                <div class="sticker-grid" id="stickers-ola"></div>
             </div>
-        </div>
 
-        <button class="reset-btn" onclick="resetDay()">🔄 Rozpocznij nowy dzień</button>
+        </div>
     </div>
 
     <script>
-        const TASK_DEFINITIONS = [
-            { name: "🛏️ Ścielenie łóżka", duration: 5 },
-            { name: "🦷 Mycie zębów", duration: 5 },
-            { name: "👕 Ubranie się", duration: 10 },
-            { name: "🥣 Zjedzenie śniadania", duration: 20 },
-            { name: "👟 Załóż buty i kurtkę", duration: 5 }
+        const TASKS = [
+            { id: 0, name: "Ubieranie", time: 10, icon: "👕" },
+            { id: 1, name: "Śniadanie", time: 15, icon: "🥣" },
+            { id: 2, name: "Mycie zębów", time: 5, icon: "🦷" },
+            { id: 3, name: "Pakowanie", time: 10, icon: "🎒" },
+            { id: 4, name: "Buty i kurtka", time: 10, icon: "👟" }
         ];
 
-        const STICKERS = ['🦄', '🌸', '🐱', '🌈', '🍦', '🎨', '👑', '🦋', '⭐', '🎈', '🦁', '🐼'];
-        const TOTAL_SLOTS = 7;
+        const REWARDS = ['🚀', '👑', '💎', '🦄', '⭐', '🎈', '🌸', '🍦'];
 
         let state = {
-            ala: { wakeTime: "06:45", targetTime: "07:30", tasks: [false, false, false, false, false], stickers: [] },
-            ola: { wakeTime: "06:45", targetTime: "07:30", tasks: [false, false, false, false, false], stickers: [] }
+            ala: { tasks: [false, false, false, false, false], stickers: [] },
+            ola: { tasks: [false, false, false, false, false], stickers: [] }
         };
 
-        function loadData() {
-            const saved = localStorage.getItem('poranek_v5_data');
-            if (saved) {
-                state = JSON.parse(saved);
-                document.getElementById('ala-wake-time').value = state.ala.wakeTime || "06:45";
-                document.getElementById('ala-target-time').value = state.ala.targetTime || "07:30";
-                document.getElementById('ola-wake-time').value = state.ola.wakeTime || "06:45";
-                document.getElementById('ola-target-time').value = state.ola.targetTime || "07:30";
-            }
-        }
+        // Zabezpieczenie przed menu kontekstowym PPM w całej aplikacji
+        document.addEventListener('contextmenu', e => e.preventDefault());
 
-        function saveData() {
-            state.ala.wakeTime = document.getElementById('ala-wake-time').value;
-            state.ala.targetTime = document.getElementById('ala-target-time').value;
-            state.ola.wakeTime = document.getElementById('ola-wake-time').value;
-            state.ola.targetTime = document.getElementById('ola-target-time').value;
-            localStorage.setItem('poranek_v5_data', JSON.stringify(state));
-        }
+        function calculateTotalTime() {
+            const wake = document.getElementById('wake-time').value.split(':').map(Number);
+            const exit = document.getElementById('exit-time').value.split(':').map(Number);
+            
+            let wakeMins = wake[0] * 60 + wake[1];
+            let exitMins = exit[0] * 60 + exit[1];
+            
+            let diff = exitMins - wakeMins;
+            if (diff < 0) diff += 24 * 60;
 
-        function updateTimes() {
-            saveData();
-            render();
+            document.getElementById('total-time-display').innerText = `Czas ogółem: ${diff} min`;
         }
 
         function handleTaskClick(child, index) {
             state[child].tasks[index] = !state[child].tasks[index];
-            
-            const allCompleted = state[child].tasks.every(t => t === true);
-            if (allCompleted && state[child].stickers.length < TOTAL_SLOTS) {
-                const randomSticker = STICKERS[Math.floor(Math.random() * STICKERS.length)];
-                state[child].stickers.push(randomSticker);
+
+            // Jeśli wykonano wszystkie zadania, przyznaj naklejkę
+            const allDone = state[child].tasks.every(t => t === true);
+            if (allDone && state[child].stickers.length < 20) {
+                const randomReward = REWARDS[Math.floor(Math.random() * REWARDS.length)];
+                state[child].stickers.push(randomReward);
             }
 
-            saveData();
             render();
-        }
-
-        function handleStickerLPM(child, slotIndex) {
-            if (slotIndex >= state[child].stickers.length && state[child].stickers.length < TOTAL_SLOTS) {
-                const randomSticker = STICKERS[Math.floor(Math.random() * STICKERS.length)];
-                state[child].stickers.push(randomSticker);
-                saveData();
-                render();
-            }
-        }
-
-        function handleStickerPPM(event, child, slotIndex) {
-            event.preventDefault();
-            if (slotIndex < state[child].stickers.length) {
-                state[child].stickers.splice(slotIndex, 1);
-                saveData();
-                render();
-            }
-        }
-
-        function resetDay() {
-            if (confirm("Rozpocząć nowy dzień? Zadania zostaną wyczyszczone, naklejki pozostaną.")) {
-                state.ala.tasks = [false, false, false, false, false];
-                state.ola.tasks = [false, false, false, false, false];
-                saveData();
-                render();
-            }
-        }
-
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('clock').innerText = now.toLocaleTimeString();
-            renderTimers();
-        }
-
-        function getTaskSchedule(wakeTimeStr) {
-            const [hours, minutes] = wakeTimeStr.split(':').map(Number);
-            let currentTime = new Date();
-            currentTime.setHours(hours, minutes, 0, 0);
-
-            return TASK_DEFINITIONS.map(task => {
-                const start = new Date(currentTime);
-                const end = new Date(start.getTime() + task.duration * 60000);
-                currentTime = end;
-                return { name: task.name, start, end };
-            });
         }
 
         function render() {
             ['ala', 'ola'].forEach(child => {
-                const wakeStr = document.getElementById(`${child}-wake-time`).value;
-                const schedule = getTaskSchedule(wakeStr);
-                const container = document.getElementById(`${child}-tasks`);
-                container.innerHTML = '';
+                const tasksContainer = document.getElementById(`tasks-${child}`);
+                tasksContainer.innerHTML = '';
 
-                let completedCount = 0;
-
-                schedule.forEach((item, index) => {
+                TASKS.forEach((task, index) => {
                     const isDone = state[child].tasks[index];
-                    if (isDone) completedCount++;
+                    const row = document.createElement('div');
+                    row.className = `task-row ${isDone ? 'completed' : ''}`;
+                    
+                    // LPM dla Ali, PPM dla Oli
+                    row.onmousedown = (e) => {
+                        if (child === 'ala' && e.button === 0) { // LPM
+                            handleTaskClick('ala', index);
+                        } else if (child === 'ola' && e.button === 2) { // PPM
+                            handleTaskClick('ola', index);
+                        }
+                    };
 
-                    const startStr = item.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                    const endStr = item.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-                    const li = document.createElement('li');
-                    li.className = `task-item ${isDone ? 'completed' : ''}`;
-                    li.id = `${child}-task-${index}`;
-                    li.onclick = () => handleTaskClick(child, index);
-
-                    li.innerHTML = `
-                        <div class="task-main">
-                            <div class="task-checkbox">${isDone ? '✓' : ''}</div>
-                            <span class="task-text">${item.name}</span>
-                        </div>
-                        <div class="task-timer-info">
-                            <span>⏰ ${startStr} - ${endStr}</span>
-                            <span class="countdown" id="${child}-timer-${index}">--:--</span>
+                    row.innerHTML = `
+                        <div class="task-icon">${task.icon}</div>
+                        <div class="task-details">
+                            <div class="task-top">
+                                <span>${task.name}</span>
+                                <span class="task-time-val">${task.time} min</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" style="width: ${isDone ? '100%' : '0%'}"></div>
+                            </div>
                         </div>
                     `;
-                    container.appendChild(li);
+                    tasksContainer.appendChild(row);
                 });
 
-                const statusEl = document.getElementById(`${child}-status`);
-                if (completedCount === 5) {
-                    statusEl.innerText = "Dzień zaliczony! 🎉";
-                    statusEl.style.color = "#22c55e";
-                } else {
-                    statusEl.innerText = `Postęp: ${completedCount}/5`;
-                    statusEl.style.color = "#d97706";
-                }
-
-                const stickerGrid = document.getElementById(`${child}-stickers`);
+                // Renderowanie 20 kratek naklejek
+                const stickerGrid = document.getElementById(`stickers-${child}`);
                 stickerGrid.innerHTML = '';
                 const collected = state[child].stickers;
 
-                document.getElementById(`${child}-sticker-count`).innerText = `${collected.length}/${TOTAL_SLOTS}`;
+                document.getElementById(`count-${child}`).innerText = `${collected.length}/20`;
 
-                for (let i = 0; i < TOTAL_SLOTS; i++) {
+                for (let i = 0; i < 20; i++) {
                     const slot = document.createElement('div');
                     if (i < collected.length) {
                         slot.className = 'sticker-slot filled';
                         slot.innerText = collected[i];
                     } else {
                         slot.className = 'sticker-slot';
+                        slot.innerText = '?';
                     }
-
-                    slot.onclick = () => handleStickerLPM(child, i);
-                    slot.oncontextmenu = (e) => handleStickerPPM(e, child, i);
-
                     stickerGrid.appendChild(slot);
                 }
             });
-
-            renderTimers();
         }
 
-        function renderTimers() {
-            const now = new Date();
-
-            ['ala', 'ola'].forEach(child => {
-                const wakeStr = document.getElementById(`${child}-wake-time`).value;
-                const schedule = getTaskSchedule(wakeStr);
-
-                schedule.forEach((item, index) => {
-                    const timerEl = document.getElementById(`${child}-timer-${index}`);
-                    const taskEl = document.getElementById(`${child}-task-${index}`);
-                    if (!timerEl) return;
-
-                    const isDone = state[child].tasks[index];
-
-                    if (isDone) {
-                        timerEl.innerText = "Zrobione!";
-                        timerEl.className = "countdown";
-                        if (taskEl) taskEl.classList.remove('active');
-                    } else if (now > item.end) {
-                        timerEl.innerText = "Spóźnienie!";
-                        timerEl.className = "countdown urgent";
-                        if (taskEl) taskEl.classList.remove('active');
-                    } else if (now >= item.start && now <= item.end) {
-                        const diffMs = item.end - now;
-                        const mins = Math.floor(diffMs / 60000);
-                        const secs = Math.floor((diffMs % 60000) / 1000);
-                        timerEl.innerText = `Zostało: ${mins}m ${secs}s`;
-                        timerEl.className = "countdown urgent";
-                        if (taskEl) taskEl.classList.add('active');
-                    } else {
-                        const diffMs = item.start - now;
-                        const mins = Math.floor(diffMs / 60000);
-                        timerEl.innerText = `Za ${mins} min`;
-                        timerEl.className = "countdown";
-                        if (taskEl) taskEl.classList.remove('active');
-                    }
-                });
-            });
+        function toggleTimer() {
+            alert("Odliczanie zostało rozpoczęte!");
         }
 
-        loadData();
-        setInterval(updateClock, 1000);
-        updateClock();
+        calculateTotalTime();
+        render();
     </script>
 </body>
 </html>
